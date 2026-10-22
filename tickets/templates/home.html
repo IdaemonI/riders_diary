@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+home
+{% endblock %}
+
+{% block content %}
+    
+<h2>Главная страница</h2>
+
+<p>
+    Добро пожаловать в систему технических заявок.
+</p>
+
+<a href="{% url 'ticket_list' %}">
+    Перейти к заявкам
+</a>
+<p><a href="{% url 'category_list' %}">Categories</a></p>
+<p>{{ request.user }}</p>
+<p>is authencicated: {{ request.user.is_authenticated }}</p>
+<p>is staff: {{ request.user.is_staff }}</p>
+<p>{{ request.user.email }}</p>
+<p>is superuser: {{ request.user.is_superuser }}</p>
+
+{%endblock%}
+

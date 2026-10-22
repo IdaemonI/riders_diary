@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Заявка №{{ ticket.id }}
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if ticket %}
+
+   <div class="page-header">
+
+    <div>
+
+        <div class="ticket-id">
+            Ticket #{{ ticket.id }}
+        </div>
+
+        <h1>
+            {{ ticket.title }}
+        </h1>
+
+    </div>
+
+    <div class="actions">
+        {% if perms.ticket.change_ticket %}
+        <a href="{% url 'ticket_edit' ticket.pk %}"
+           class="button">
+            Edit
+        </a>
+        {% endif %}
+
+        {% if perms.ticket.delete_ticket %}
+        <a href="{% url 'ticket_delete' ticket.pk %}"
+           class="button button-danger">
+            Delete
+        </a>
+        {% endif %}
+
+    </div>
+
+</div>
+<section class="card">
+
+    <h2>Description</h2>
+
+    <p>
+        {{ ticket.description|linebreaks }}
+    </p>
+
+</section>
+
+<section class="ticket-info">
+
+    <div>
+        <strong>Status</strong>
+        {{ ticket.get_status_display }}
+    </div>
+
+    <div>
+        <strong>Priority</strong>
+        {{ ticket.get_priority_display }}
+    </div>
+
+    <div>
+        <strong>Category</strong>
+        {{ ticket.category }}
+    </div>
+
+    <div>
+        <strong>Author</strong>
+        {{ ticket.author }}
+    </div>
+
+</section>
+
+    {% if ticket.attachment %}
+      <a href="{{ ticket.attachment.url }}">
+        Download attachment
+      </a>
+    {% endif %}
+
+    {% for tag in ticket.tags.all %}
+      <span>{{ tag.name }}</span>
+    {% endfor %}
+
+    {% for comment in ticket.comments.all %}
+      <div>
+          <strong>{{ comment.author }}</strong>
+  
+          <p>
+              {{ comment.text }}
+          </p>
+  
+          <small>
+              {{ comment.created_at }}
+          </small>
+      </div>
+    {% empty %}
+        <p>Комментариев пока нет.</p>
+    {% endfor %}
+
+   <h2>Добавить комментарий</h2>
+
+    <form method="post">
+    
+        {% csrf_token %}
+    
+        {{ form.as_p }}
+    
+        <button type="submit">
+            Отправить
+        </button>
+    
+    </form>
+
+
+    {% if ticket.status != "done" %}
+      <form method="post" action="{% url 'ticket_close' ticket.id %}">
+        {% csrf_token %}
+        <button type="submit">
+          close ticket
+        </button>
+      </form>
+    {% endif %}
+
+
+    {% if ticket.status == "new" %}
+      <form method="post" action="{% url 'ticket_to_work' ticket.id %}">
+        {% csrf_token %}
+        <button type="submit">
+          take to work
+        </button>
+      </form>
+    {% endif %}
+
+{% else %}
+
+    <h2>
+        Заявка не найдена
+    </h2>
+
+{% endif %}
+
+
+    <a href="{% url 'ticket_list' %}">
+        Назад к заявкам
+    </a>
+
+
+{% endblock %}

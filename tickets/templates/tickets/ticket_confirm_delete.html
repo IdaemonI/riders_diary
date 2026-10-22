@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Ticket delition</h1>
+
+<p>
+  Are you sure about deletion:
+  <strong>{{ ticket.title }}</strong>
+</p>
+
+<form method="post">
+  
+  {% csrf_token %}
+
+  <button type="submit" class="button-danger">
+    Delete
+  </button>
+
+</form>
+
+<a href="{% url 'ticket_detail' ticket.pk %}">
+  Cancel
+</a>
+
+{% endblock %}

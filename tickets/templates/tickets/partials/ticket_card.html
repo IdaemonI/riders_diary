@@ -1,0 +1,56 @@
+<article class="ticket-card">
+
+    <div class="ticket-header">
+
+        <div>
+            <span class="ticket-id">
+                #{{ ticket.id }}
+            </span>
+
+            <a
+                href="{% url 'ticket_detail' ticket.pk %}"
+                class="ticket-title"
+            >
+                {{ ticket.title }}
+            </a>
+        </div>
+
+
+        <span class="status status-{{ ticket.status }}">
+            {{ ticket.get_status_display }}
+        </span>
+
+    </div>
+
+
+    <p class="ticket-description">
+        {{ ticket.description|truncatechars:120 }}
+    </p>
+
+
+    <div class="ticket-meta">
+
+        {% if ticket.category %}
+            <span>
+                {{ ticket.category.name }}
+            </span>
+        {% endif %}
+
+
+        <span class="priority priority-{{ ticket.priority }}">
+            {{ ticket.get_priority_display }}
+        </span>
+
+
+        <span>
+            {{ ticket.author }}
+        </span>
+
+
+        <span>
+            {{ ticket.created_at|date:"d M Y" }}
+        </span>
+
+    </div>
+
+</article>

@@ -1,0 +1,16 @@
+{% extends "tickets/base.html" %}
+
+{% block content %}
+
+<h1>Category {{ category.name }}</h1>
+
+<h2>Tickets:</h2>
+<ol>
+  {% for ticket in tickets %}
+  <li><a href="{% url 'ticket_detail' ticket.pk %}">
+    {{ ticket.title }}
+  </a></li>
+  {% endfor %}
+</ol>
+
+{% endblock %}
