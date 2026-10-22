@@ -1,0 +1,28 @@
+{% extends "diary/base.html" %}
+{% block content %}
+  <section>
+    <h2>My books</h2>
+    <article class="book_list_wrapper">
+      <form method="get">
+
+        <input 
+          type="text" 
+          name="search" 
+          placeholder="Search books..."
+          >
+        
+          <select name="status" id="select_status">
+            <option value="">
+              All
+            </option>
+          </select>
+
+      </form>
+      <ul class="book_list">
+        {% for book in books %}
+        <li>{{ book.title }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+  </section>
+{% endblock %}
